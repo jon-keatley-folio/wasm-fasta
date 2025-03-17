@@ -7,14 +7,20 @@
 </head>
 <body>
     <link data-trunk rel="rust" href="Cargo.toml" data-wasm-opt="z" data-bin="wasm-fasta"/>
-</body>
+    <script data-trunk src="src/wrapper.js"></script>
+    <input type="file" id="fasta_in" accept=".fa"/>
 
-<script type="module">
-    addEventListener("TrunkApplicationStarted", (event) => {
-        console.log("application started - bindings:", window.wasmBindings, "WASM:", event.detail.wasm);
-        window.wasmBindings.wasm_hello();
-        // You can also run this via the WASM instance in the details
-    });
-</script>
+
+    <script type="module">
+        addEventListener("TrunkApplicationStarted", (event) => {
+            //console.log("application started - bindings:", window.wasmBindings, "WASM:", event.detail.wasm);
+            window.wasmBindings.wasm_hello();
+            // You can also run this via the WASM instance in the details
+            
+            register("fasta_in");
+        });
+    </script>
+
+</body>
 
 </html>

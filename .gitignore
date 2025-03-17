@@ -11,3 +11,6 @@ target/
 
 # Trunk junk
 dist/
+
+# ignore fasta test files
+**/*.fa
