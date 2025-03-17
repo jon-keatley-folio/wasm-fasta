@@ -1,0 +1,21 @@
+[package]
+name = "wasm-fasta"
+version = "0.1.0"
+authors = ["Jon Keatley jon@ebi.ac.uk"]
+edition = "2018"
+
+[dependencies]
+console_error_panic_hook = "0.1"
+wasm-bindgen = "0.2"
+web-sys = { version = "0.3", features = [
+    "console",
+    "Document",
+    "HtmlElement",
+    "Node",
+    "Text",
+    "Window",
+] }
+noodles = { version = "0.94.0", features = [
+  "bgzf",
+  "fasta"  
+] }

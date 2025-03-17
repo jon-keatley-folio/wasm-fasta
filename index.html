@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>WASM - FASTA</title>
+</head>
+<body>
+    <link data-trunk rel="rust" href="Cargo.toml" data-wasm-opt="z" data-bin="wasm-fasta"/>
+</body>
+
+<script type="module">
+    addEventListener("TrunkApplicationStarted", (event) => {
+        console.log("application started - bindings:", window.wasmBindings, "WASM:", event.detail.wasm);
+        window.wasmBindings.wasm_hello();
+        // You can also run this via the WASM instance in the details
+    });
+</script>
+
+</html>
