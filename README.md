@@ -2,6 +2,8 @@
 
 A wasm wrapper for noodles providing fasta features
 
+Project template taken from https://github.com/trunk-rs/trunk/tree/main/examples/vanilla
+
 Todo
 - [ ] Gain a understanding of Noodles
 - [ ] Create a method that compresses a provided fasta file
