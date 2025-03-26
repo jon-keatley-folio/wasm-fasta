@@ -19,6 +19,13 @@ pub fn wasm_hello() {
     web_sys::console::log_1(&"Hello from WASM!".into());
 }
 
+#[wasm_bindgen]
+pub fn process_file_as_string(f: String)
+{
+    web_sys::console::log_1(&"WASM got this!".into());
+    web_sys::console::log_1(&f.into());
+}
+
 fn main() {
     set_panic_hook();
     start_app();

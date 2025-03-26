@@ -13,12 +13,12 @@ Todo
 
 ## Building
 
-'''
+```
 trunk build
-'''
+```
 
 ## Testing
 
-'''
+```
 trunk serve
-'''
+```
