@@ -1,7 +1,8 @@
-
+use core::str;
 use console_error_panic_hook::set_once as set_panic_hook;
 use wasm_bindgen::prelude::*;
-use noodles::fasta::Reader; 
+use noodles::fasta::Reader;
+use noodles::fasta::io::Indexer;
 //use web_sys::window;
 
 fn start_app() {
@@ -18,23 +19,52 @@ fn start_app() {
     //on clicks need to pull the desired values
 }
 
-#[wasm_bindgen]
-pub fn wasm_hello() {
-    web_sys::console::log_1(&"Hello from WASM!".into());
-}
-
-fn create_compressed_fasta(fasta:&str) -> Result<String, String>
+fn create_compressed_fasta(fasta:&str) -> Result<String, i32>
 {
     let fasta_in:String = fasta.to_owned();
     let fasta_bytes = fasta_in.into_bytes();
-    let mut reader = Reader::new(fasta_bytes.as_slice());
     
-    for rec_result in reader.records()
+    let mut indexer = Indexer::new(fasta_bytes.as_slice());
+    let mut results:String = String::new();
+    let mut error_count = 0;
+
+    while let Ok(rec_result) = indexer.index_record()
     {
-        
+        match rec_result 
+        {
+            Some(rec) =>
+            { 
+                let name_result = str::from_utf8(rec.name());
+                
+                if let Ok(name) = name_result
+                {
+                    results = format!("{} {} {} {} {}\n{}",
+                        name,
+                        rec.length(),
+                        rec.offset(),
+                        rec.line_bases(),
+                        rec.line_width(),
+                        results);
+                }
+                else
+                {
+                    error_count += 1;
+                }
+            }
+            None =>
+            {
+                break
+            }
+        }
+
     }
     
-    Err("WIP".to_string())
+    if error_count > 0
+    {
+        return Err(error_count)
+    }
+    
+    Ok(results)
 }
 
 fn create_fasta_index(fasta:&str) -> Result<String, String>
@@ -57,7 +87,19 @@ pub fn process_file_as_string(f: String)
 {
     
     web_sys::console::log_1(&"WASM got this!".into());
-    //web_sys::console::log_1(&f.into());
+    //web_sys::console::log_1(&f.clone().into());
+    
+    let index_result = create_compressed_fasta(&f);
+    web_sys::console::log_1(&"Indexer complete".into());
+    if let Ok(index) = index_result
+    {
+        web_sys::console::log_1(&"success".into());
+        web_sys::console::log_2(&"Index".into(), &index.into());
+    }
+    else
+    {
+        web_sys::console::log_1(&"Indexer failed :(".into());
+    }
     
     //let fasta_bytes = f.into_bytes().clone();
     //let repo_results =  get_repo(fasta_bytes.as_slice());
