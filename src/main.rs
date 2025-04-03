@@ -19,7 +19,7 @@ fn start_app() {
     //on clicks need to pull the desired values
 }
 
-fn create_compressed_fasta(fasta:&str) -> Result<String, i32>
+fn create_fasta_index(fasta:&str) -> Result<String, i32>
 {
     let fasta_in:String = fasta.to_owned();
     let fasta_bytes = fasta_in.into_bytes();
@@ -67,7 +67,7 @@ fn create_compressed_fasta(fasta:&str) -> Result<String, i32>
     Ok(results)
 }
 
-fn create_fasta_index(fasta:&str) -> Result<String, String>
+fn create_compressed_fasta(fasta:&str) -> Result<String, String>
 {
     let fasta_in:String = fasta.to_owned();
     let fasta_bytes = fasta_in.into_bytes();
@@ -89,7 +89,7 @@ pub fn process_file_as_string(f: String)
     web_sys::console::log_1(&"WASM got this!".into());
     //web_sys::console::log_1(&f.clone().into());
     
-    let index_result = create_compressed_fasta(&f);
+    let index_result = create_fasta_index(&f);
     web_sys::console::log_1(&"Indexer complete".into());
     if let Ok(index) = index_result
     {
