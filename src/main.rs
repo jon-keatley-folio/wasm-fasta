@@ -1,8 +1,11 @@
+use core::slice::SlicePattern;
 use core::str;
+use std::io::Write;
 use console_error_panic_hook::set_once as set_panic_hook;
 use wasm_bindgen::prelude::*;
 use noodles::fasta::Reader;
 use noodles::fasta::io::Indexer;
+use noodles::bgzf::Writer;
 //use web_sys::window;
 
 fn start_app() {
@@ -71,15 +74,18 @@ fn create_compressed_fasta(fasta:&str) -> Result<String, String>
 {
     let fasta_in:String = fasta.to_owned();
     let fasta_bytes = fasta_in.into_bytes();
-    let mut reader = Reader::new(fasta_bytes.as_slice());
+    let compressed_fasta_bytes:Vec<u8> = Vec::new();
     
-    for rec_result in reader.records()
+    let mut writer = Writer::new(compressed_fasta_bytes);
+    let write_result = writer.write_all(fasta_bytes.as_slice());
+    
+    if write_result.is_ok()
     {
-        
+        //let byte_array = 
+        //return Ok(compressed_fasta_bytes.as_slice())
     }
-
     
-    Err("WIP".to_string())
+    Err("Failed to compress fasta".to_string())
 }
 
 #[wasm_bindgen]
